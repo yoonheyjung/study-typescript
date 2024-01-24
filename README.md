@@ -44,10 +44,11 @@ npm install
 # 개발 환경에서 실행 (nodemon 사용)
 npm run start:dev
 
-# Swagger 문서 생성Swagger 문서 생성
+# Swagger 문서 생성
 npm run api-docs
 ```
 
+[🔗 Swagger 문서 바로가기](localhost:3005/api-docs)
 </br>
 
 ## 프로젝트 구조

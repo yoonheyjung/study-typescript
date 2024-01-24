@@ -5,10 +5,15 @@ info:
   termsOfService: "http://swagger.io/terms/"
   contact:
     email: hey5318@naver.com
+tags:
+  - name: members
+    description: 유저 관련 api
 paths:
   /v1/members:
     get:
       summary: 유저조회
+      tags:
+        - members
       parameters:
         - name: osm_id
           in: query
@@ -20,15 +25,15 @@ paths:
         - name: start_date
           in: query
           description: 해당 날짜 이후에 출생한 회원들 조회
-          example: "2022-03-21"
+          example: "1992-02-11"
           required: false
           schema:
             type: string
         - name: end_date
           in: query
           description: 해당 날짜 이전에 출생한 회원들 조회
+          example: "2022-03-21"
           required: false
-          example: "1992-02-11"
           schema:
             type: string
         - name: name
@@ -67,6 +72,8 @@ paths:
           $ref: "#/components/responses/Success"
     post:
       summary: 유저 생성
+      tags:
+        - members
       requestBody:
         description: Create a new pet in the store
         content:
@@ -75,11 +82,12 @@ paths:
               $ref: "#/components/schemas/generateMember"
       responses:
         "200":
-          description: 닉네임
           $ref: "#/components/responses/Success"
   /v1/members/csv:
     get:
       summary: csv 다운로드
+      tags:
+        - members
       parameters:
         - name: osm_id
           in: query
@@ -91,7 +99,7 @@ paths:
         - name: start_date
           in: query
           description: 해당 날짜 이후에 출생한 회원들 조회
-          example: "2022-03-21"
+          example: "1992-02-11"
           required: false
           schema:
             type: string
@@ -99,7 +107,7 @@ paths:
           in: query
           description: 해당 날짜 이전에 출생한 회원들 조회
           required: false
-          example: "1992-02-11"
+          example: "2022-03-21"
           schema:
             type: string
         - name: name
@@ -123,6 +131,8 @@ paths:
   "/v1/members/avg/{osmId}":
     get:
       summary: 과목별 점수 평균값 구하기
+      tags:
+        - members
       parameters:
         - name: osmId
           in: path
@@ -136,7 +146,9 @@ paths:
           $ref: "#/components/responses/SuccessAverage"
   "/v1/members/{memberId}":
     delete:
-      summary: 유저 삭제
+      summary: 특정 유저 삭제
+      tags:
+        - members
       parameters:
         - name: memberId
           in: path
@@ -151,6 +163,8 @@ paths:
   "/v1/members/{memberId}/score":
     post:
       summary: 유저의 점수 등록
+      tags:
+        - members
       parameters:
         - name: memberId
           in: path
@@ -190,9 +204,11 @@ components:
               example: "2022-02-11"
             coordinates:
               type: array
-              example:
-                - "126.815"
-                - "37.575"
+              items:
+                type: integer
+                example:
+                  - "126.815"
+                  - "37.575"
         score:
           type: array
           items:
