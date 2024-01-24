@@ -1,0 +1,330 @@
+openapi: 3.0.3
+info:
+  title: 나라스페이스 코딩테스트 API
+  version: 1.0.0
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: hey5318@naver.com
+paths:
+  /v1/members:
+    get:
+      summary: 유저조회
+      parameters:
+        - name: osm_id
+          in: query
+          description: 구역 id
+          example: -2409165
+          required: false
+          schema:
+            type: string
+        - name: start_date
+          in: query
+          description: 해당 날짜 이후에 출생한 회원들 조회
+          example: "2022-03-21"
+          required: false
+          schema:
+            type: string
+        - name: end_date
+          in: query
+          description: 해당 날짜 이전에 출생한 회원들 조회
+          required: false
+          example: "1992-02-11"
+          schema:
+            type: string
+        - name: name
+          in: query
+          description: 이름
+          example: 이
+          required: false
+          schema:
+            type: string
+        - name: nickname
+          in: query
+          description: 닉네임
+          example: F
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: |-
+            {
+              "id": 389146,
+              "name": "이상석",
+              "nickname": "P09FDBDy",
+              "birthday": "2023-03-29",
+              "location": {
+                "type": "Point",
+                "coordinates": [
+                  126.595,
+                  37.735
+                ]
+              },
+              "createdAt": "2022-12-09T12:38:22.000Z",
+              "updatedAt": "2022-12-09T12:38:22.000Z",
+              "scores": []
+            },
+          $ref: "#/components/responses/Success"
+    post:
+      summary: 유저 생성
+      requestBody:
+        description: Create a new pet in the store
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/generateMember"
+      responses:
+        "200":
+          description: 닉네임
+          $ref: "#/components/responses/Success"
+  /v1/members/csv:
+    get:
+      summary: csv 다운로드
+      parameters:
+        - name: osm_id
+          in: query
+          description: 구역 id
+          example: -2409165
+          required: false
+          schema:
+            type: string
+        - name: start_date
+          in: query
+          description: 해당 날짜 이후에 출생한 회원들 조회
+          example: "2022-03-21"
+          required: false
+          schema:
+            type: string
+        - name: end_date
+          in: query
+          description: 해당 날짜 이전에 출생한 회원들 조회
+          required: false
+          example: "1992-02-11"
+          schema:
+            type: string
+        - name: name
+          in: query
+          description: 이름
+          example: 이
+          required: false
+          schema:
+            type: string
+        - name: nickname
+          in: query
+          description: 닉네임
+          example: F
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 닉네임
+          $ref: "#/components/responses/Success"
+  "/v1/members/avg/{osmId}":
+    get:
+      summary: 과목별 점수 평균값 구하기
+      parameters:
+        - name: osmId
+          in: path
+          required: true
+          example: -2409165
+          description: osmId
+          schema:
+            type: string
+      responses:
+        "200":
+          $ref: "#/components/responses/SuccessAverage"
+  "/v1/members/{memberId}":
+    delete:
+      summary: 유저 삭제
+      parameters:
+        - name: memberId
+          in: path
+          required: true
+          example: 402892
+          description: 유저 고유 ID
+          schema:
+            type: number
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+  "/v1/members/{memberId}/score":
+    post:
+      summary: 유저의 점수 등록
+      parameters:
+        - name: memberId
+          in: path
+          required: true
+          example: 402892
+          description: 유저 고유 ID
+          schema:
+            type: number
+      requestBody:
+        description: Create a new pet in the store
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/generateMemberScore"
+      responses:
+        "200":
+          $ref: "#/components/responses/Success"
+components:
+  schemas:
+    generateMember:
+      required:
+        - name
+        - photoUrls
+      type: object
+      properties:
+        member:
+          type: object
+          properties:
+            name:
+              type: string
+              example: 김테스트1
+            nickname:
+              type: string
+              example: 김테스트1
+            birthday:
+              type: string
+              example: "2022-02-11"
+            coordinates:
+              type: array
+              example:
+                - "126.815"
+                - "37.575"
+        score:
+          type: array
+          items:
+            type: object
+            properties:
+              subject:
+                type: string
+                enum:
+                  - math
+                  - english
+                  - science
+                example: math
+              score:
+                type: integer
+                minimum: 0
+                maximum: 100
+    generateMemberScore:
+      type: object
+      properties:
+        subject:
+          type: string
+          enum:
+            - math
+            - english
+            - science
+          example: math
+        score:
+          type: integer
+          minimum: 0
+          maximum: 100
+          example: 78
+  responses:
+    Success:
+      description: 성공적인 응답
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: 2000
+              msg:
+                type: string
+                example: Success
+    SuccessAverage:
+      description: 과목별 평균
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: 2000
+              msg:
+                type: string
+                example: Success
+              result:
+                type: object
+                properties:
+                  english:
+                    type: number
+                    example: 72.1
+                  math:
+                    type: number
+                    example: 79.6
+                  science:
+                    type: number
+                    example: 20
+    ValidatorError:
+      description: validation 에러
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: 4000
+              msg:
+                type: string
+                example: Validation Error
+    AuthenticationError:
+      description: 인증 오류
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: 4010
+              msg:
+                type: string
+                example: 토큰인증실패
+    Forbidden:
+      description: 인가 오류
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: 4030
+              msg:
+                type: string
+                example: 인가되지 않은 요청입니다
+    NotFoundError:
+      description: Not Found Error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: 4040
+              msg:
+                type: string
+                example: Not Found Error
+    ServerError:
+      description: Server Error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: string
+                example: 5000
+              msg:
+                type: string
+                example: Server Error
