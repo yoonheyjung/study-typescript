@@ -3,6 +3,7 @@ import morgan from "morgan";
 import swaggerUi from "swagger-ui-express";
 import YAML from "yamljs";
 import path from "path";
+import helmet from "helmet";
 
 import db from "./models/index";
 import memberRouter from "./routes/member.route";
@@ -18,6 +19,7 @@ const swaggerYaml = YAML.load(path.join(__dirname, "./swagger/swagger.yaml"));
 
 // Middleware
 app.use(morgan("dev"));
+app.use(helmet({ contentSecurityPolicy: false }));
 app.use(express.json());
 
 // Routes

@@ -19,10 +19,16 @@ DataBase: postgres, typeorm
 ```
 cd docker
 docker-compose up -d
-docker exec -it naraDB psql -U postgres    # DB 접속
+
+# DB 접속
+docker exec -it naraDB psql -U postgres
+
 CREATE DATABASE nara;
 CREATE EXTENSION postgis;
-docker-compose restart postgres   # 재시작
+
+
+# 재시작
+docker-compose restart postgres
 ```
 
 초기 데이터 삽입은 `index.ts` 에 작성되어있음.
