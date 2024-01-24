@@ -2,3 +2,6 @@ node_modules
 
 // csv
 *.csv
+
+docker/*
+!docker/*.yml

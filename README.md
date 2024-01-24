@@ -6,25 +6,15 @@ Server: Node, Express
 
 DataBase: postgres, typeorm
 
-postgres에 postgis 추가 설치하기
-
 </br>
 
 ## 시작하기
 
-```
-# 의존성 설치
-npm install
-
-# 개발 환경에서 실행 (nodemon 사용)
-npm run start:dev
-
-# 빌드 후 실행
-npm run build
-npm start
-```
-
 ### DB 설치 및 초기 설정
+
+1. 도커를 이용해 DB 설치
+2. DB 설치 후 Database 생성, postgis 사용 가능하게 설치
+3. docker restart
 
 ```
 cd docker
@@ -35,15 +25,24 @@ CREATE EXTENSION postgis;
 docker-compose restart postgres   # 재시작
 ```
 
-초기 데이터 삽입은 index.ts 에 작성되어있음.
-초기에 한 번 `await memberData();`, `await geoData();` 주석 해제
+초기 데이터 삽입은 `index.ts` 에 작성되어있음.
 
-**주요 스크립트**
+초기에 한 번 `await memberData()`, `await geoData()` 주석 해제 (주석하지않으면, 초기 실행 시 시간이 오래걸림)
 
-- `npm test`: 테스트 실행
-- `npm start`: 빌드된 애플리케이션 실행
-- `npm start:dev`: 개발 환경에서 nodemon으로 실행
-- `npm run api-docs`: Swagger 문서 생성
+### node 실행
+
+```
+# 의존성 설치
+npm install
+
+# 개발 환경에서 실행 (nodemon 사용)
+npm run start:dev
+
+# Swagger 문서 생성Swagger 문서 생성
+npm run api-docs
+```
+
+</br>
 
 ## 프로젝트 구조
 
