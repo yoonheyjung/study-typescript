@@ -48,7 +48,7 @@ npm run start:dev
 npm run api-docs
 ```
 
-[🔗 Swagger 문서 바로가기](localhost:3005/api-docs)
+🔗 [Swagger 문서 바로가기](http://localhost:3005/api-docs/)
 </br>
 
 ## 프로젝트 구조
