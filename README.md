@@ -1,5 +1,3 @@
-# 나라스페이스 백엔드 사전 과제
-
 ## Tech Stack
 
 Server: Node, Express
